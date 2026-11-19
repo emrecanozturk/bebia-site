@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "RCLPS6L9PS.com.emrecanozturk.bebia"
+        ],
+        "components": [
+          {
+            "/": "/davet"
+          },
+          {
+            "/": "/davet/"
+          }
+        ]
+      }
+    ]
+  }
+}
