@@ -591,9 +591,26 @@ a.cta:hover,a.cta:focus-visible{background:var(--on);color:var(--coral)}
   document.getElementById("ready").hidden = false;
   document.getElementById("open").href = "bebia://davet#" + fragment;
 
-  var apple = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+  var ua = navigator.userAgent;
+  var apple = /iPhone|iPad|iPod/.test(ua) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   if (!apple) document.getElementById("other").hidden = false;
+  var openButton = document.getElementById("open"), storeButton = document.getElementById("store");
+  var safari = apple && /Safari\//.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|FBAN|FBAV|Instagram|Line\/|GSA\//.test(ua);
+  var seen = false;
+  try { seen = sessionStorage.getItem("bebia.store") === fragment; } catch (e) {}
+  if (apple && !seen) {
+    openButton.className = "btn white";
+    storeButton.className = "btn on";
+    openButton.parentNode.insertBefore(storeButton, openButton);
+  }
+  if (safari && !seen) {
+    try { sessionStorage.setItem("bebia.store", fragment); } catch (e) {}
+    setTimeout(function () { location.href = storeButton.href; }, 600);
+  }
+  storeButton.addEventListener("click", function () {
+    try { sessionStorage.setItem("bebia.store", fragment); } catch (e) {}
+  });
 
   var copy = document.getElementById("copy");
   copy.addEventListener("click", function () {
